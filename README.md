@@ -1,3 +1,3 @@
-# Addon Name
+# XPerl
 
-This is the repository for <Addon Name>. Modified for Ascension.gg. 
+This is the repository for XPerl. Modified for Ascension.gg. 
