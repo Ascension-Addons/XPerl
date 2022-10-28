@@ -6,7 +6,6 @@ local init_done, gradient, conf, doneOptions
 local errorCount = 0
 XPerl_RequestConfig(function(new) conf = new end, "$Revision: 363 $")
 
-local classOrder = {"WARRIOR", "DEATHKNIGHT", "ROGUE", "HUNTER", "DRUID", "SHAMAN", "PALADIN", "PRIEST", "MAGE", "WARLOCK"}
 
 -- SetTex
 local highlightPositions = {	{0, 0.25, 0, 0.5},
@@ -307,7 +306,7 @@ local function GetNamesWithoutBuff(spellName, with, filter)
 			XPerl_FreeTable(list)
 		end
 	elseif (conf.buffHelper.sort == "class") then
-		for j,class in ipairs(classOrder) do
+		for j,class in ipairs(CLASS_SORT_ORDER) do
 			local list = withList[class]
 			if (list) then
 				sort(list)

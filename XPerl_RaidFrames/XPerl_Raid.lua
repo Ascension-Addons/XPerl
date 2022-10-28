@@ -1855,11 +1855,11 @@ local function GetCombatRezzerList()
 
 				local good
 				if (not UnitAffectingCombat(raidid)) then
-					if (fileName == "PRIEST" or fileName == "SHAMAN" or fileName == "PALADIN") then
+					if (fileName == "PRIEST" or fileName == "SHAMAN" or fileName == "PALADIN" or fileName == "HERO") then
 						tinsert(ret, {["name"] = name, class = fileName, cd = 0})
 					end
 				else
-					if (fileName == "DRUID") then
+					if (fileName == "DRUID" or fileName == "HERO") then
 						local myRoster = XPerl_Roster[name]
 
 						if (myRoster) then
@@ -2073,6 +2073,11 @@ local function SetMainHeaderAttributes(self)
 	end
 end
 
+local defaultClasses = {}
+for class in pairs(RAID_CLASS_COLORS) do
+	tinsert(defaultClasses, { enable = true, name = class })
+end
+
 -- XPerl_Raid_SetAttributes
 function XPerl_Raid_ChangeAttributes()
 
@@ -2085,39 +2090,7 @@ function XPerl_Raid_ChangeAttributes()
 
 	-- Nihilianth: The filter  part has to be made scrollable to fit all the new ones
 	local function DefaultRaidClasses()
-		return {
-			{enable = true, name = "HUNTER"},
-			{enable = true, name = "WARRIOR"},
-			{enable = true, name = "SHAMAN"},
-			{enable = true, name = "MAGE"},
-			{enable = true, name = "TINKER"},
-			{enable = true, name = "STARCALLER"},
-			{enable = true, name = "RANGER"},
-			{enable = true, name = "NECROMANCER"},
-			{enable = true, name = "WILDWALKER"},
-			{enable = true, name = "CULTIST"},
-			{enable = true, name = "GUARDIAN"},
-			{enable = true, name = "REAPER"},
-			{enable = true, name = "DRUID"},
-			{enable = true, name = "MONK"},
-			{enable = true, name = "BARBARIAN"},
-			{enable = true, name = "DEATHKNIGHT"},
-			{enable = true, name = "STORMBRINGER"},
-			{enable = true, name = "RIFTBLADE"},
-			{enable = true, name = "SUNCLERIC"},
-			{enable = true, name = "SPIRITMAGE"},
-			{enable = true, name = "WITCHDOCTOR"},
-			{enable = true, name = "CHRONOMANCER"},
-			{enable = true, name = "PRIEST"},
-			{enable = true, name = "PYROMANCER"},
-			{enable = true, name = "SONOFARUGAL"},
-			{enable = true, name = "WARLOCK"},
-			{enable = true, name = "DEMONHUNTER"},
-			{enable = true, name = "FLESHWARDEN"},
-			{enable = true, name = "WITCHHUNTER"},
-			{enable = true, name = "ROGUE"},
-			{enable = true, name = "PALADIN"},
-		}
+		return defaultClasses
 	end
 
 	local function GroupFilter(n)

@@ -3533,15 +3533,15 @@
 									XPerl_Options_EnableSibling("ExtraSparkles")
 
 									local _, class = UnitClass("player")
-									if (class ~= "DRUID" and class ~= "PRIEST" and class ~= "SHAMAN") then
+									if (class ~= "DRUID" and class ~= "PRIEST" and class ~= "SHAMAN" and class ~= "HERO") then
 										XPerlDB.highlight.HOT = nil
 										XPerl_Options_EnableCheck(XPerl_Options_GetSibling("HighlightHoTs"), false)
 									end
-									if (class ~= "PRIEST" and class ~= "SHAMAN" and class ~= "MAGE" and class ~= "PALADIN") then
+									if (class ~= "PRIEST" and class ~= "SHAMAN" and class ~= "MAGE" and class ~= "PALADIN" and class ~= "HERO") then
 										XPerlDB.highlight.SHIELD = nil
 										XPerl_Options_EnableCheck(XPerl_Options_GetSibling("HighlightShields"), false)
 									end
-									if (class ~= "PRIEST") then
+									if (class ~= "PRIEST" and class ~= "HERO") then
 										XPerlDB.highlight.POM = nil
 										XPerl_Options_EnableCheck(XPerl_Options_GetSibling("HighlightMending"), false)
 									end

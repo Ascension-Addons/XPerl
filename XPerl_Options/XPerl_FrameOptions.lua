@@ -905,28 +905,24 @@ function XPerl_Options_DoRangeTooltip(self)
 end
 
 -- DefaultRaidClasses
+local raidClasses = {}
+
+for class in pairs(RAID_CLASS_COLORS) do
+	tinsert(raidClasses, {enable = true, name = class})
+end
 local function DefaultRaidClasses()
-	return {
-		{enable = true, name = "WARRIOR"},
-		{enable = true, name = "DEATHKNIGHT"},
-		{enable = true, name = "ROGUE"},
-		{enable = true, name = "HUNTER"},
-		{enable = true, name = "MAGE"},
-		{enable = true, name = "WARLOCK"},
-		{enable = true, name = "PRIEST"},
-		{enable = true, name = "DRUID"},
-		{enable = true, name = "SHAMAN"},
-		{enable = true, name = "PALADIN"},
-	}
+	return raidClasses
 end
 
 -- ValidateClassNames
 local function ValidateClassNames(part)
 	-- This should never happen, but I'm sure someone will find a way to break it
 
-	local list = {WARRIOR = false, MAGE = false, ROGUE = false, DRUID = false,
-			HUNTER = false, SHAMAN = false, PRIEST = false,	WARLOCK = false, PALADIN = false, DEATHKNIGHT = false}
+	local list = {}
 
+	for class in pairs(RAID_CLASS_COLORS) do
+		list[class] = false
+	end
 	local valid
 	if (part.class) then
 		local classCount = 0
@@ -2432,19 +2428,8 @@ local function XPerl_Raid_ConfigDefault(default)
 		enable			= 1,
 --		sortByClass		= nil,
 --		sortAlpha		= nil,
-		group = {1, 1, 1, 1, 1, 1, 1, 1, 1},
-		class = {
-			{enable = 1, name = "WARRIOR"},
-			{enable = 1, name = "ROGUE"},
-			{enable = 1, name = "HUNTER"},
-			{enable = 1, name = "MAGE"},
-			{enable = 1, name = "WARLOCK"},
-			{enable = 1, name = "PRIEST"},
-			{enable = 1, name = "DRUID"},
-			{enable = 1, name = "SHAMAN"},
-			{enable = 1, name = "PALADIN"},
-			{enable = 1, name = "DEATHKNIGHT"},
-		},
+		group = {},
+		class = {},
 		titles			= 1,
 		percent			= 1,
 		scale			= 0.8,
@@ -2466,6 +2451,11 @@ local function XPerl_Raid_ConfigDefault(default)
 		},
 		anchor			= "TOP",
 	}
+
+	for class in pairs(RAID_CLASS_COLORS) do
+		tinsert(default.raid.class, { enable = 1, name = class })
+		tinsert(default.raid.group, 1)
+	end
 end
 
 -- XPerl_RaidPet_ConfigDefault
@@ -2474,6 +2464,7 @@ local function XPerl_RaidPet_ConfigDefault(default, section)
 		enable			= 1,			-- 2.1.3
 		hunter			= 1,			-- 2.1.3
 		warlock			= 1,			-- 2.1.3
+		hero            = 1,
 	}
 end
 

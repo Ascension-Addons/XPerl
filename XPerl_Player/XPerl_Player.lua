@@ -409,7 +409,7 @@ local function XPerl_Player_UpdateMana(self)
 		end
 	end
 
-	if (playerClass == "DRUID") then
+	if (playerClass == "DRUID" or playerClass == "HERO") then
 		XPerl_Player_DruidBarUpdate(self)
 	end
 end
@@ -542,7 +542,7 @@ end
 local function XPerl_Player_UpdateBuffs(self)
 	XPerl_CheckDebuffs(self, self.partyid)
 
-	if (playerClass == "DRUID") then
+	if (playerClass == "DRUID" or playerClass == "HERO") then
 		XPerl_Player_UpdateMana(self)
 	end
 
@@ -790,7 +790,7 @@ end
 -- PLAYER_TALENT_UPDATE
 function XPerl_Player_Events:PLAYER_TALENT_UPDATE()
 	XPerl_Player_UpdateMana(self)
-	if (playerClass == "DRUID") then
+	if (playerClass == "DRUID" or playerClass == "HERO") then
 		XPerl_Player_DruidBarUpdate(self)
 	end
 end
@@ -1043,7 +1043,7 @@ function XPerl_Player_Set_Bits(self)
 		end
 	end
 
-	if (playerClass == "DRUID" and not self.statsFrame.druidBar) then
+	if ((playerClass == "DRUID" or playerClass == "HERO") and not self.statsFrame.druidBar) then
 		MakeDruidBar(self)
 	else
 		MakeDruidBar = nil

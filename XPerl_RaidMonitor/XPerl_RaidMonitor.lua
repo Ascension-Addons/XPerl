@@ -256,10 +256,10 @@ function XPerl_CastMon_ChildUnits(self)
 	self:SetScript("OnAttributeChanged", onAttrChanged)
 
 	local class = select(2, UnitClass("player"))
-	if (class == "DRUID") then
+	if GetSpellInfo(XPERL_MONITOR_INNERVATE) then
 		self:SetAttribute("type2", "spell")
 		self:SetAttribute("spell2", XPERL_MONITOR_INNERVATE)
-	elseif (class == "SHAMAN") then
+	elseif GetSpellInfo(XPERL_MONITOR_MANATIDE) then
 		self:SetAttribute("type2", "spell")
 		self:SetAttribute("spell2", XPERL_MONITOR_MANATIDE)
 	end
