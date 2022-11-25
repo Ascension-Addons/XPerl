@@ -173,7 +173,7 @@ end
 
 -- XPerl_MainTankSet_OnClick
 function XPerl_MainTankSet_OnClick(self, value)
-	if (self.value[1] == "Main Tanks") then				-- Must be 'this'
+	if (self.value[1] == "Main Tanks") then				-- Must be 'self'
 		if (self.value[4]) then
 			SendAddonMessage("CTRA", "R "..self.value[2], "RAID")
 		else
@@ -222,9 +222,9 @@ function XPerl_RaidFrameDropDown_Initialize(self, ct)
 	if (DropDownList1.numButtons == 0 and (IsRaidOfficer() or (ct and CT_RATab_AutoPromotions))) then
 		titleDone = true
 		info = UIDropDownMenu_CreateInfo()
-		info.text = this.name
-		if (this.server) then
-			info.text = info.text.."-"..this.server
+		info.text = self.name
+		if (self.server) then
+			info.text = info.text.."-"..self.server
 		end
 		info.isTitle = 1
 		info.notCheckable = 1
@@ -239,7 +239,7 @@ function XPerl_RaidFrameDropDown_Initialize(self, ct)
 
 		info = UIDropDownMenu_CreateInfo()
 		info.text = XPERL_RAID_DROPDOWN_MAINTANKS
-		info.value = {"Main Tanks", self.name, self.id}			-- Must be 'this'
+		info.value = {"Main Tanks", self.name, self.id}			-- Must be 'self'
 		info.hasArrow = 1
 		info.dist = 0
 		info.notCheckable = 1
@@ -258,8 +258,8 @@ function XPerl_RaidFrameDropDown_Initialize(self, ct)
 	if (ct and CT_RATab_AutoPromotions) then
 		info = UIDropDownMenu_CreateInfo()
 		info.text = XPERL_RAID_AUTOPROMOTE
-		info.checked = CT_RATab_AutoPromotions[this.name]	-- Must be 'this'
-		info.value = this.id					-- Must be 'this'
+		info.checked = CT_RATab_AutoPromotions[self.name]	-- Must be 'self'
+		info.value = self.id					-- Must be 'self'
 		info.func = CT_RATab_AutoPromote_OnClick
 		UIDropDownMenu_AddButton(info)
 	end
@@ -1383,7 +1383,7 @@ do
 			tip = CreateFrame("GameTooltip", "XPerlDurCheckTooltip")
 		end
 
-		tip:SetOwner(this, "ANCHOR_RIGHT")
+		tip:SetOwner(UIParent, "ANCHOR_NONE")
 		tip:ClearAllPoints()
 		tip:SetPoint("TOP", UIParent, "BOTTOM", -200, 0)
 		for i = 1, 18 do

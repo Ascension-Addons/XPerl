@@ -77,7 +77,7 @@
 		</Layers>
 		<Scripts>
 			<OnEscapePressed>
-				this:ClearFocus();
+				self:ClearFocus();
 			</OnEscapePressed>
 		</Scripts>
 		<FontString inherits="ChatFontNormal"/>
@@ -91,7 +91,7 @@
 		</Size>
 		<Scripts>
 			<OnClick>
-				local text = this:GetText()
+				local text = self:GetText()
 				XPerl_AdminFrame_Controls_Edit:SetText(text)
 			</OnClick>
 		</Scripts>

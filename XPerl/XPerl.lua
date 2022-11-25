@@ -166,11 +166,7 @@ function XPerl_ShowMessage(cMsg)
 	if (not cf:IsVisible()) then
 		cf = DEFAULT_CHAT_FRAME
 	end
-	if (this and this.GetName and this:GetName()) then
-		cf:AddMessage("|c00007F7F"..this:GetName().."|r - "..str)
-	else
-		cf:AddMessage(str)
-	end
+	cf:AddMessage(str)
 end
 
 XPerl_AnchorList = {"TOP", "LEFT", "BOTTOM", "RIGHT"}
@@ -1266,7 +1262,7 @@ function XPerl_PlayerTip(self, unitid)
 		end
 	end
 
-	GameTooltip_SetDefaultAnchor(GameTooltip, this)
+	GameTooltip_SetDefaultAnchor(GameTooltip, self)
 	GameTooltip:SetUnit(unitid)
 
 	if (XPerl_RaidTipExtra) then

@@ -174,7 +174,7 @@ function XPerl_Party_Pet_OnLoad(self)
 	XPerl_RegisterHighlight(self.highlight, 2)
 	XPerl_RegisterPerlFrames(self, {self.nameFrame, self.statsFrame})
 
-	this.FlashFrames = {self.nameFrame, self.statsFrame}
+	self.FlashFrames = {self.nameFrame, self.statsFrame}
 
 	self:SetScript("OnShow",
 		function(self)

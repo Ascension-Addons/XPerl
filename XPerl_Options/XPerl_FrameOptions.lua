@@ -121,15 +121,15 @@ function XPerl_GetCheck(f)
 	end
 end
 
--- XPerl_Options_GetSibling(sibling)
-function XPerl_Options_GetSibling(sibling)
-	return getglobal(this:GetParent():GetName().."_"..sibling)
+-- XPerl_Options_GetSibling(self, sibling)
+function XPerl_Options_GetSibling(self, sibling)
+	return getglobal(self:GetParent():GetName().."_"..sibling)
 end
 
 -- XPerl_Options_EnableSibling
-function XPerl_Options_EnableSibling(sibling, check2nd, check3rd)
+function XPerl_Options_EnableSibling(self, sibling, check2nd, check3rd)
 
-	local siblingName = this:GetParent():GetName().."_"..sibling
+	local siblingName = self:GetParent():GetName().."_"..sibling
 	local siblingFrame = getglobal(siblingName)
 	local second = true
 	local condition = "and"
@@ -142,7 +142,7 @@ function XPerl_Options_EnableSibling(sibling, check2nd, check3rd)
 		if (type(check2nd) == "table") then
 			second = check2nd:GetChecked()
 		elseif (type(check2nd) == "string") then
-			local sib2 = this:GetParent():GetName().."_"..check2nd
+			local sib2 = self:GetParent():GetName().."_"..check2nd
 			local sibf2 = getglobal(sib2)
 			if (sibf2) then
 				second = sibf2:GetChecked()
@@ -156,9 +156,9 @@ function XPerl_Options_EnableSibling(sibling, check2nd, check3rd)
 
 	local result
 	if (condition == "and") then
-		result = (this:GetChecked() and second)
+		result = (self:GetChecked() and second)
 	elseif (condition == "or") then
-		result = (this:GetChecked() or second)
+		result = (self:GetChecked() or second)
 	end
 
 	if (siblingFrame) then
@@ -212,8 +212,8 @@ function XPerl_Options_EnableCheck(self, on)
 end
 
 -- XPerl_Options_IncrementSibling
-function XPerl_Options_IncrementSibling(sibling)
-	local siblingName = this:GetParent():GetName().."_"..sibling
+function XPerl_Options_IncrementSibling(self, sibling)
+	local siblingName = self:GetParent():GetName().."_"..sibling
 	local siblingFrame = getglobal(siblingName)
 
 	if (siblingFrame and (siblingFrame.GetFrameType or siblingFrame.GetObjectType)(siblingFrame) == "EditBox") then
@@ -225,8 +225,8 @@ function XPerl_Options_IncrementSibling(sibling)
 end
 
 -- XPerl_Options_DecrementSibling
-function XPerl_Options_DecrementSibling(sibling)
-	local siblingName = this:GetParent():GetName().."_"..sibling
+function XPerl_Options_DecrementSibling(self, sibling)
+	local siblingName = self:GetParent():GetName().."_"..sibling
 	local siblingFrame = getglobal(siblingName)
 
 	if (siblingFrame and (siblingFrame.GetFrameType or siblingFrame.GetObjectType)(siblingFrame) == "EditBox") then
@@ -238,11 +238,11 @@ function XPerl_Options_DecrementSibling(sibling)
 end
 
 -- XPerl_Options_CheckRadio
-function XPerl_Options_CheckRadio(buttons)
-	local prefix = this:GetParent():GetName().."_"
+function XPerl_Options_CheckRadio(self, buttons)
+	local prefix = self:GetParent():GetName().."_"
 
 	for i,name in pairs(buttons) do
-		if (prefix..name == this:GetName()) then
+		if (prefix..name == self:GetName()) then
 			getglobal(prefix..name):SetChecked(true)
 		else
 			getglobal(prefix..name):SetChecked(false)
@@ -251,8 +251,8 @@ function XPerl_Options_CheckRadio(buttons)
 end
 
 -- XPerl_Options_GetSiblingChecked
-function XPerl_Options_GetSiblingChecked(name)
-	local prefix = this:GetParent():GetName().."_"
+function XPerl_Options_GetSiblingChecked(self, name)
+	local prefix = self:GetParent():GetName().."_"
 	return getglobal(prefix..name):GetChecked()
 end
 
@@ -269,27 +269,27 @@ function XPerl_Raid_OptionActions()
 end
 
 -- XPerl_Options_OnUpdate
-function XPerl_Options_OnUpdate()
+function XPerl_Options_OnUpdate(self)
 
-	if (this.Fading) then
-	        local alpha = this:GetAlpha()
-	        if (this.Fading == "in") then
+	if (self.Fading) then
+	        local alpha = self:GetAlpha()
+	        if (self.Fading == "in") then
 	                alpha = alpha + (arg1 * 2)		-- elapsed * 2 == fade in/out in 1/2 second
 	                if (alpha > 1) then
 	                        alpha = 1
 	                end
-	        elseif (this.Fading == "out") then
+	        elseif (self.Fading == "out") then
 	                alpha = alpha - (arg1 * 2)
 	                if (alpha < 0) then
 	                        alpha = 0
 	                end
 	        end
-	        this:SetAlpha(alpha)
+	        self:SetAlpha(alpha)
 	        if (alpha == 0) then
-	                this.Fading = nil
-	                this:Hide()
+	            self.Fading = nil
+	            self:Hide()
 	        elseif (alpha == 1) then
-	                this.Fading = nil
+				self.Fading = nil
 	        end
 	else
 		local f = GetMouseFocus()
@@ -585,11 +585,11 @@ function XPerl_Options_Anchor_Initialize()
 end
 
 -- XPerl_Options_Anchor_OnClick
-function XPerl_Options_Anchor_OnClick()
+function XPerl_Options_Anchor_OnClick(self)
 	local obj = UIDROPDOWNMENU_OPEN_MENU
 
-	obj.varSet(XPerl_AnchorList[this:GetID()])
-	MyIndex = this:GetID()
+	obj.varSet(XPerl_AnchorList[self:GetID()])
+	MyIndex = self:GetID()
 	UIDropDownMenu_SetSelectedID(obj, MyIndex, 1)
 
 	XPerl_ProtectedCall(obj.setFunc)
@@ -606,9 +606,6 @@ end
 -- CopySelectedSettings
 local CopyFrom
 local function CopySelectedSettings()
-	--ChatFrame7:AddMessage("Copying settings from "..CopyFrom)
-	--UIDropDownMenu_SetSelectedID(XPerl_Options_DropDown_LoadSettings, this:GetID(), 1)
-
 	XPerlDB = XPerl_CopyTable(CopyFrom.config)
 
 	if (XPerlConfigSavePerCharacter) then
@@ -632,12 +629,12 @@ local function CopySelectedSettings()
 end
 
 -- XPerl_Options_LoadSettings_OnClick
-function XPerl_Options_LoadSettings_OnClick()
+function XPerl_Options_LoadSettings_OnClick(self)
 
 	local list = GetPlayerList()
 
-	if (this:GetID() ~= MyIndex) then
-		local entry = list[this:GetID()]
+	if (self:GetID() ~= MyIndex) then
+		local entry = list[self:GetID()]
 
 		if (entry) then
 			CopyFrom = entry
@@ -660,7 +657,7 @@ function XPerl_Options_TextureSelect_Onload(self)
 	end
 
 	self.UpdateFunction = function()
-		this:GetParent():SetBarColours()
+		self:GetParent():SetBarColours()
 	end
 
 	self.SetBarColours = function(self)

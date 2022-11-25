@@ -166,7 +166,7 @@ function XPerl_ArcaneBar_OnEvent(self, event, newarg1)
 		end
 
 	elseif (event == "UNIT_SPELLCAST_FAILED" or event == "UNIT_SPELLCAST_INTERRUPTED") then
-		if (this:IsShown() and not ActiveCasting(self)) then
+		if (self:IsShown() and not ActiveCasting(self)) then
 			if (event == "UNIT_SPELLCAST_FAILED") then
 				self.spellText:SetText(FAILED)
 			else

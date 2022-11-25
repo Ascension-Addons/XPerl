@@ -517,8 +517,8 @@ local function GetSelectedItemLink()
 end
 
 -- GetCursorItem
-local function GetCursorItemLink()
-	local id = this:GetID() + XPerl_CheckListItemsScrollBar.offset
+local function GetCursorItemLink(self)
+	local id = self:GetID() + XPerl_CheckListItemsScrollBar.offset
 	local item = XPerl_CheckItems[id]
 	if (item and not item.fixed) then
 		return item.link
@@ -527,7 +527,7 @@ local function GetCursorItemLink()
 end
 
 -- SelectClickedTickItem
-local function SelectClickedTickItem()
+local function SelectClickedTickItem(self)
 
 	local oldSelection
 	for k,v in ipairs(XPerl_CheckItems) do
@@ -538,10 +538,10 @@ local function SelectClickedTickItem()
 	end
 
 	local id
-	if ((this.GetFrameType or this.GetObjectType)(this) == "CheckButton") then
-		id = this:GetParent():GetID()
+	if ((self.GetFrameType or self.GetObjectType)(self) == "CheckButton") then
+		id = self:GetParent():GetID()
 	else
-		id = this:GetID()
+		id = self:GetID()
 	end
 
 	if (id and id > 0) then
@@ -593,18 +593,18 @@ function XPerl_Check_TickLastResults()
 end
 
 -- XPerl_Check_OnClickItem
-function XPerl_Check_OnClickItem(button)
+function XPerl_Check_OnClickItem(self, button)
 
 	if (button == "LeftButton") then
 		if (IsShiftKeyDown()) then
                         -- ticket 658: Patch 3.3.5 ChatFrameEditBox obsoleted fix. 
                         local activeWindow = ChatEdit_GetActiveWindow();
                         if ( activeWindow ) then
-                                activeWindow:Insert(GetCursorItemLink());
+                                activeWindow:Insert(GetCursorItemLink(self));
                         end
                 
 		elseif (IsControlKeyDown()) then
-			DressUpItemLink(GetCursorItemLink())
+			DressUpItemLink(GetCursorItemLink(self))
 
 		else
 			if (CursorHasItem()) then
@@ -623,7 +623,7 @@ function XPerl_Check_OnClickItem(button)
 			XPerl_CheckListPlayersScrollBarScrollBar:SetValue(0)
 			XPerl_CheckButtonPlayerPortrait:SetTexture("")	-- SetPortraitTexture(XPerl_CheckButtonPlayerPortrait, "raidx")
 			SelectedPlayer = nil
-			SelectClickedTickItem(true)
+			SelectClickedTickItem(self, true)
 			XPerl_Check_ValidateButtons()
 		end
 	end
@@ -1308,15 +1308,15 @@ function XPerl_Check_ShowInfo()
 end
 
 -- XPerl_Check_OnEnter
-function XPerl_Check_OnEnter()
+function XPerl_Check_OnEnter(self)
 
 	local f, anc
-	if ((this.GetFrameType or this.GetObjectType)(this) == "CheckButton") then
-		f = getglobal(this:GetParent():GetName().."Name")
-		anc = this:GetParent()
+	if ((self.GetFrameType or self.GetObjectType)(self) == "CheckButton") then
+		f = getglobal(self:GetParent():GetName().."Name")
+		anc = self:GetParent()
 	else
-		f = getglobal(this:GetName().."Name")
-		anc = this
+		f = getglobal(self:GetName().."Name")
+		anc = self
 	end
 	if (f) then
 		local link = f:GetText()
@@ -1340,10 +1340,10 @@ function XPerl_Check_OnEnter()
 end
 
 -- XPerl_Check_OnClickStart
-function XPerl_Check_OnClickTick()
-	local id = this:GetParent():GetID() + XPerl_CheckListItemsScrollBar.offset
+function XPerl_Check_OnClickTick(self)
+	local id = self:GetParent():GetID() + XPerl_CheckListItemsScrollBar.offset
 	if (XPerl_CheckItems[id]) then
-		XPerl_CheckItems[id].ticked = this:GetChecked()
+		XPerl_CheckItems[id].ticked = self:GetChecked()
 	end
 	XPerl_Check_ValidateButtons()
 end
@@ -1862,9 +1862,9 @@ function XPerl_Check_Report(showNames)
 end
 
 -- XPerl_Check_PlayerOnClick
-function XPerl_Check_PlayerOnClick(button)
+function XPerl_Check_PlayerOnClick(self, button)
 
-	local index = this:GetID() + XPerl_CheckListPlayersScrollBar.offset
+	local index = self:GetID() + XPerl_CheckListPlayersScrollBar.offset
 
 	if (index < 1 or index > #XPerl_PlayerList) then
 		return
@@ -2053,14 +2053,14 @@ end
 end
 
 -- XPerl_Check_Channels_OnLoad
-function XPerl_Check_Channels_OnLoad()
+function XPerl_Check_Channels_OnLoad(self)
 	if (not outputChannelSelection) then
 		outputChannelSelection = 1
 	end
 
-	this.displayMode = "MENU"
-	UIDropDownMenu_Initialize(this, XPerl_Check_Channels_Initialize)
-	UIDropDownMenu_SetSelectedID(this, outputChannelSelection)
+	self.displayMode = "MENU"
+	UIDropDownMenu_Initialize(self, XPerl_Check_Channels_Initialize)
+	UIDropDownMenu_SetSelectedID(self, outputChannelSelection)
 	UIDropDownMenu_SetWidth(XPerl_CheckButtonChannel, 100)
 	XPerl_CheckButtonChannelText:SetTextColor(unpack(outputChannelColour))
 end

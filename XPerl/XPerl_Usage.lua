@@ -215,33 +215,33 @@ function mod:GeneralTooltip(name, anchor)
 end
 
 -- GuildMateTooltip
-local function XPerl_GuildMateTooltip()
+local function XPerl_GuildMateTooltip(self)
 	if (not conf.tooltip.xperlInfo) then
 		return
 	end
 
-	local name, rank, rankIndex, level, class, zone, note, officernote, online = GetGuildRosterInfo(this.guildIndex)
-	mod:GeneralTooltip(name, this)
+	local name, rank, rankIndex, level, class, zone, note, officernote, online = GetGuildRosterInfo(self.guildIndex)
+	mod:GeneralTooltip(name, self)
 end
 
 -- XPerl_FriendTooltip
-local function XPerl_FriendTooltip()
+local function XPerl_FriendTooltip(self)
 	if (not conf.tooltip.xperlInfo) then
 		return
 	end
 
-	local name, level, class, area, connected, status = GetFriendInfo(this:GetID())
-	mod:GeneralTooltip(name, this)
+	local name, level, class, area, connected, status = GetFriendInfo(self:GetID())
+	mod:GeneralTooltip(name, self)
 end
 
 -- XPerl_WhoTooltip
-local function XPerl_WhoTooltip()
+local function XPerl_WhoTooltip(self)
 	if (not conf.tooltip.xperlInfo) then
 		return
 	end
 
-	local name, guild, level, race, class, zone = GetWhoInfo(this.whoIndex)
-	mod:GeneralTooltip(name, this)
+	local name, guild, level, race, class, zone = GetWhoInfo(self.whoIndex)
+	mod:GeneralTooltip(name, self)
 end
 
 -- XPerl_UsageStartup
